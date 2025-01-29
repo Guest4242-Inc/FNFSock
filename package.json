@@ -4,7 +4,8 @@
   "description": "Friday Night Funkin' Guest4242 Engine multiplayer thingy??????",
   "main": "index.js",
   "scripts": {
-    "test": "node npm-scripts/test.js"
+    "test": "node npm-scripts/test.js",
+    "start": "node npm-scripts/start.js"
   },
   "repository": {
     "type": "git",
