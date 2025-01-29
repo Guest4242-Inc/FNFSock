@@ -10,13 +10,20 @@ const gradientText = (text) => {
     }
     return coloredText;
 };
+const purpleText = (text) => {
+    let coloredPurpleText = '';
+    for (let i = 0; i < text.length; i++) {
+        coloredPurpleText += text[i]['magenta'];
+    }
+    return coloredPurpleText;
+};
 
 console.log(gradientText("███████████████████████████████████████████████"));
-console.log(gradientText("█") + "                                             " + gradientText("█"));
-console.log(gradientText("█") + "            FNFSock v0.0.1 Beta              " + gradientText("█"));
-console.log(gradientText("█") + "        Made for FNF Guest4242 Engine        " + gradientText("█"));
-console.log(gradientText("█") + "           0.0.3 Multiplayer Update          " + gradientText("█"));
-console.log(gradientText("█") + "                                             " + gradientText("█"));
+console.log(gradientText("█") + "                                             " + purpleText("█"));
+console.log(gradientText("█") + "            FNFSock v0.0.1 Beta              " + purpleText("█"));
+console.log(gradientText("█") + "        Made for FNF Guest4242 Engine        " + purpleText("█"));
+console.log(gradientText("█") + "           0.0.3 Multiplayer Update          " + purpleText("█"));
+console.log(gradientText("█") + "                                             " + purpleText("█"));
 console.log(gradientText("███████████████████████████████████████████████"));
 console.log("Starting server...");
 const server = net.createServer((socket) => {
