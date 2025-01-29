@@ -50,3 +50,8 @@ const server = net.createServer((socket) => {
 });
 
 server.listen(9742, () => console.log('Listening on port 9742'));
+
+process.on('SIGINT', () => {
+    console.log("\nReceived Ctrl + C from the keyboard, exiting.");
+    process.exit();
+});
