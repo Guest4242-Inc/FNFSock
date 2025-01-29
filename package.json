@@ -1,0 +1,19 @@
+{
+  "name": "fnfsock",
+  "version": "0.0.1",
+  "description": "Friday Night Funkin' Guest4242 Engine multiplayer thingy??????",
+  "main": "index.js",
+  "scripts": {
+    "test": "node npm-scripts/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guest4242-Inc/FNFSock.git"
+  },
+  "author": "Guest4242",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Guest4242-Inc/FNFSock/issues"
+  },
+  "homepage": "https://github.com/Guest4242-Inc/FNFSock#readme"
+}
