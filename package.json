@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Guest4242-Inc/FNFSock/issues"
   },
-  "homepage": "https://github.com/Guest4242-Inc/FNFSock#readme"
+  "homepage": "https://github.com/Guest4242-Inc/FNFSock#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "net": "^1.0.2"
+  }
 }
