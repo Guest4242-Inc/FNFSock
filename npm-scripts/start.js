@@ -1,6 +1,17 @@
 const net = require('net');
 const colors = require('colors');
 
+// HTML response for browsers
+const badRequestHTML = `
+HTTP/1.1 400 Bad Request
+Content-Type: text/html
+Connection: close
+
+<h1>ayo, bro!</h1>
+<p>you cant visit fnf guest4242 engine multiplayer server via browser, you can only connect to it through the game!</p>
+<p>if u are selfhoster, sorry there is no admin panel rn :(</p>
+`;
+
 const gradientText = (text) => {
     const gradientColors = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta'];
     let coloredText = '';
@@ -26,27 +37,37 @@ console.log(gradientText("█") + "           0.0.3 Multiplayer Update          
 console.log(gradientText("█") + "                                             " + purpleText("█"));
 console.log(gradientText("███████████████████████████████████████████████"));
 console.log("Starting server...");
+
 const server = net.createServer((socket) => {
-
     socket.on('data', (data) => {
-        const message = data.toString().trim();
-        console.log('Received data being sended:\n', message);
+        const message = data.toString();
+        console.log('Received data:\n', message);
 
-        if (message === 'CNT') {
+        // Detect a browser connection (HTTP request)
+        if (message.startsWith('GET') || message.startsWith('POST')) {
+            console.log('Browser connection detected, sending 400 Bad Request');
+            socket.write(badRequestHTML);
+            socket.destroy(); // Close the connection after sending the response
+            return;
+        }
+
+        // Handle recognized game client messages
+        const trimmedMessage = message.trim();
+        if (trimmedMessage === 'CNT') {
             console.log("A new connection!");
             socket.write('OK'); // the game will not receive this message if the server is not running
-        } else if (message === 'VERIF') {
+        } else if (trimmedMessage === 'VERIF') {
             // todo: implement connection verification
             socket.write('OK');
-        } else if (message === 'GETPLAYERS') {
+        } else if (trimmedMessage === 'GETPLAYERS') {
             // todo: implement this using json
             socket.write('NOT_IMPLEMENTED');
-        } else if (message === 'DISCNT') {
-           socket.destroy();
-           console.log("Player disconnected from the server");
+        } else if (trimmedMessage === 'DISCNT') {
+            socket.destroy();
+            console.log("Player disconnected from the server");
         }
-        
-        // if data is not recognized, return nothing
+
+        // If data is not recognized, do nothing
     });
 });
 
