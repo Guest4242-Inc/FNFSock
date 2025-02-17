@@ -27,13 +27,13 @@ console.log(gradientText("█") + "                                             
 console.log(gradientText("███████████████████████████████████████████████"));
 console.log("Starting server...");
 const server = net.createServer((socket) => {
-    console.log('Client connected');
 
     socket.on('data', (data) => {
         const message = data.toString().trim();
         console.log('Received data being sended:\n', message);
 
         if (message === 'CNT') {
+            console.log("A new connection!");
             socket.write('OK'); // the game will not receive this message if the server is not running
         } else if (message === 'VERIF') {
             // todo: implement connection verification
@@ -45,8 +45,6 @@ const server = net.createServer((socket) => {
         
         // if data is not recognized, return nothing
     });
-
-    socket.on('end', () => console.log('Client disconnected'));
 });
 
 server.listen(9742, () => console.log('Listening on port 9742'));
