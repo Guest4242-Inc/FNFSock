@@ -41,6 +41,9 @@ const server = net.createServer((socket) => {
         } else if (message === 'GETPLAYERS') {
             // todo: implement this using json
             socket.write('NOT_IMPLEMENTED');
+        } else if (message === 'DISCNT') {
+           socket.destroy();
+           console.log("Player disconnected from the server");
         }
         
         // if data is not recognized, return nothing
