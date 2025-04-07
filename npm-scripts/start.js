@@ -55,6 +55,8 @@ const server = net.createServer((socket) => {
         const trimmedMessage = message.trim();
         if (trimmedMessage === 'CNT') {
             console.log("A new connection!");
+            // set the host server name to show in game (e.g, if its 'my cool server', when connected it will assign the server name automatically to 'my cool server')
+            socket.write('SRVNAME: my first fnf guest4242 engine multiplayer server'); // todo: maybe make this use json?
             socket.write('OK'); // the game will not receive this message if the server is not running
         } else if (trimmedMessage === 'VERIF') {
             // todo: implement connection verification
