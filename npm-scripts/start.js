@@ -65,6 +65,7 @@ const server = net.createServer((socket) => {
             // todo: implement this using json
             socket.write('NOT_IMPLEMENTED');
         } else if (trimmedMessage === 'DISCNT') {
+            socket.write('WAIT');
             socket.destroy();
             console.log("Player disconnected from the server");
         } else if (trimmedMessage == 'PING') {
@@ -82,6 +83,23 @@ const server = net.createServer((socket) => {
             socket.username = username;
             console.log(`Username set for a player: ${username}`);
             socket.write('USERNAME_SET');
+        } else if (trimmedMessage.startsWith('CHAT')) {
+            const chatMessage = trimmedMessage.split(' ').slice(1).join(' ');
+            if (!socket.username) {
+                socket.write('ERROR');
+                console.log("CHAT command received without a username, the hell did the game do?");
+                return;
+            }
+
+            // Broadcast the chat message to all connected clients
+            server.getConnections((err, count) => {
+                if (err) {
+                    console.error('Error getting connections:', err);
+                    return;
+                }
+                console.log(`Broadcasting chat message from ${socket.username} to ${count} clients`);
+                socket.write(`CHAT ${socket.username}: ${chatMessage}`);
+            });
         }
 
         // If data is not recognized, do nothing
