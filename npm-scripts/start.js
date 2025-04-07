@@ -57,6 +57,12 @@ const server = net.createServer((socket) => {
             console.log("A new connection!");
             // set the host server name to show in game (e.g, if its 'my cool server', when connected it will assign the server name automatically to 'my cool server')
             socket.write('SRVNAME: my first fnf guest4242 engine multiplayer server'); // todo: maybe make this use json?
+            // specify other necessary stuff
+            socket.write('MINVER: 0.0.3'); // minimum version of the game required to connect
+            socket.write('DESC: join!'); // description of the server
+            socket.write('MAXPLAYERS: 10'); // maximum number of players allowed to connect. NOTE: you can disable the limit by setting this to 0
+            socket.write('SRVTYPE: 0'); // server type (0 = public, 1 = private)
+            socket.write('GHOSTTAPPING: 0'); // ghost tapping (0 = disabled, 1 = enabled)
             socket.write('OK'); // the game will not receive this message if the server is not running
         } else if (trimmedMessage === 'VERIF') {
             // todo: implement connection verification
@@ -99,6 +105,43 @@ const server = net.createServer((socket) => {
                 }
                 console.log(`Broadcasting chat message from ${socket.username} to ${count} clients`);
                 socket.write(`CHAT ${socket.username}: ${chatMessage}`);
+            });
+        } else if (trimmedMessage.startsWith("playerNoteMiss")) {
+            const noteMissData = trimmedMessage.split(' ').slice(1).join(' ');
+            if (!socket.username) {
+                socket.write('ERROR');
+                console.log("playerNoteMiss command received without a username, the hell did the game do?");
+                return;
+            }
+
+            // Broadcast the note miss data to all connected clients
+            server.getConnections((err, count) => {
+                if (err) {
+                    console.error('Error getting connections:', err);
+                    return;
+                }
+                console.log(`Broadcasting note miss data from ${socket.username} to ${count} clients`);
+                socket.write(`playerNoteMiss ${socket.username}: ${noteMissData}`);
+            });
+        } else if (trimmedMessage.startsWith("noteHit")) {
+            const parts = trimmedMessage.split(' ');
+            const noteHitData = parts.slice(1, -1).join(' ');
+            const timing = parts[parts.length - 1]; // Assuming the timing is the last part of the message
+
+            if (!socket.username) {
+            socket.write('ERROR');
+            console.log("noteHit command received without a username, the hell did the game do?");
+            return;
+            }
+
+            // Broadcast the note hit data along with timing to all connected clients
+            server.getConnections((err, count) => {
+            if (err) {
+                console.error('Error getting connections:', err);
+                return;
+            }
+            console.log(`Broadcasting note hit data from ${socket.username} with timing ${timing} to ${count} clients`);
+            socket.write(`noteHit ${socket.username} ${noteHitData}-${timing}`);
             });
         }
 
