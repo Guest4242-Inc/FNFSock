@@ -71,9 +71,9 @@ const server = net.createServer((socket) => {
         } else if (trimmedMessage.startsWith('SETUSRNAME')) {
             const username = trimmedMessage.split(' ')[1];
             if (!username) {
-            socket.write('ERROR');
-            console.log("SETUSRNAME command received without a username, the hell did the game do?");
-            return;
+                socket.write('ERROR');
+                console.log("SETUSRNAME command received without a username, the hell did the game do?");
+                return;
             }
 
             // Assign the username to the socket
